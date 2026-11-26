@@ -324,7 +324,12 @@ function Hero({ t }) {
   return (
     <section id="top" className="relative scroll-mt-16 overflow-hidden">
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 -top-16 h-[780px]">
-        <div data-parallax="-140" className="bg-dots h-full w-full" />
+        <div data-parallax="-140" className="bg-dots relative h-full w-full">
+          <div className="bg-dots-glow g1" />
+          <div className="bg-dots-glow g2" />
+          <div className="bg-dots-glow g3" />
+          <div className="bg-dots-glow g4" />
+        </div>
       </div>
       <div className="wrap relative pb-16 pt-10 md:pb-24 md:pt-20">
       <div className="grid items-center gap-12 md:grid-cols-[minmax(0,1fr)_auto] md:gap-20">
