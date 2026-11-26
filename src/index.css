@@ -2,7 +2,106 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-  .scrollbar-hide::-webkit-scrollbar { display: none; }
-  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+@layer base {
+  /* Valeurs RVB. Le bleu est la seule couleur d'accent de l'interface ; les autres teintes
+     ne servent qu'aux pastilles des projets. Les versions « -ink » sont lisibles en texte. */
+  :root {
+    --paper: 255 255 255;
+    --soft: 247 248 250;
+    --surface: 255 255 255;
+    --ink: 15 17 21;
+    --muted: 91 100 114;
+    --line: 230 232 236;
+    --night: 17 20 24;
+
+    --bleu: 31 94 255;
+    --rouge: 223 36 28;
+    --jaune: 255 180 0;
+    --vert: 0 128 74;
+    --violet: 122 60 255;
+    --turquoise: 0 124 136;
+    --orange: 234 88 12;
+
+    --bleu-ink: 31 94 255;
+    --rouge-ink: 204 31 25;
+    --jaune-ink: 143 97 0;
+    --vert-ink: 0 128 74;
+    --violet-ink: 122 60 255;
+    --turquoise-ink: 0 124 136;
+    --orange-ink: 194 65 12;
+
+    color-scheme: light;
+  }
+
+  .dark {
+    --paper: 14 17 22;
+    --soft: 19 23 29;
+    --surface: 24 29 37;
+    --ink: 236 238 242;
+    --muted: 156 164 178;
+    --line: 44 51 62;
+    --night: 9 11 15;
+
+    --bleu-ink: 120 165 255;
+    --rouge-ink: 255 120 112;
+    --jaune-ink: 255 196 61;
+    --vert-ink: 70 210 145;
+    --violet-ink: 175 148 255;
+    --turquoise-ink: 64 200 212;
+    --orange-ink: 251 146 60;
+
+    color-scheme: dark;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+  }
+
+  ::selection { background: rgb(var(--bleu) / 0.25); }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--bleu));
+    outline-offset: 2px;
+  }
+
+  select option { background: rgb(var(--surface)); color: rgb(var(--ink)); }
+}
+
+@layer components {
+  .wrap {
+    @apply mx-auto max-w-6xl px-4 sm:px-6;
+  }
+
+  .btn {
+    @apply inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-[15px] font-semibold transition;
+  }
+  .btn-primary { @apply bg-bleu text-white hover:brightness-110; }
+  .btn-secondary { @apply border border-line bg-surface text-ink hover:border-ink/30; }
+
+  .chip {
+    @apply rounded-md border border-line bg-surface px-2.5 py-1 text-[13px] font-medium text-muted;
+  }
+
+  /* Trame de points discrète derrière le haut de page (effet de parallaxe). */
+  .bg-dots {
+    background-image: radial-gradient(rgb(var(--ink) / 0.09) 1px, transparent 1.3px);
+    background-size: 22px 22px;
+    -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 0%, #000 35%, transparent 100%);
+    mask-image: radial-gradient(ellipse 75% 65% at 50% 0%, #000 35%, transparent 100%);
+  }
+
+  .icon-btn {
+    @apply grid h-9 w-9 place-items-center rounded-lg text-muted transition-colors hover:bg-soft hover:text-ink;
+  }
+
+  .gallery-arrow {
+    @apply absolute top-1/2 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-full border border-line bg-paper/95 text-ink shadow-sm transition-colors hover:bg-paper;
+  }
+  .lightbox-arrow {
+    @apply absolute top-1/2 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20;
+  }
 }
