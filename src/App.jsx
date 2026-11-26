@@ -210,6 +210,89 @@ function useReveal(viewKey) {
   }, [viewKey]);
 }
 
+// Trame de points : chaque point peut s'illuminer un instant puis s'éteindre.
+function TwinkleDots() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const canvas = ref.current;
+    const ctx = canvas.getContext('2d');
+    const GAP = 22;
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    let w = 0, h = 0, cols = 0, rows = 0, frame = 0, visible = true, last = 0;
+    let lit = new Map(); // index -> { start, dur }
+
+    const colors = () => {
+      const css = getComputedStyle(document.documentElement);
+      const dark = document.documentElement.classList.contains('dark');
+      return {
+        base: `rgb(${css.getPropertyValue('--ink').trim().replace(/ /g, ',')}, ${dark ? 0.14 : 0.1})`,
+        glow: dark ? '170, 180, 255' : css.getPropertyValue('--bleu').trim().replace(/ /g, ','),
+      };
+    };
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = canvas.clientWidth; h = canvas.clientHeight;
+      canvas.width = w * dpr; canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cols = Math.ceil(w / GAP); rows = Math.ceil(h / GAP);
+    };
+
+    const draw = (now) => {
+      const c = colors();
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = c.base;
+      for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
+        ctx.beginPath(); ctx.arc(x * GAP + GAP / 2, y * GAP + GAP / 2, 1.1, 0, Math.PI * 2); ctx.fill();
+      }
+      lit.forEach((d, i) => {
+        const p = (now - d.start) / d.dur;
+        if (p >= 1) { lit.delete(i); return; }
+        const a = Math.sin(p * Math.PI); // monte puis redescend
+        const x = (i % cols) * GAP + GAP / 2, y = Math.floor(i / cols) * GAP + GAP / 2;
+        const halo = ctx.createRadialGradient(x, y, 0, x, y, 9);
+        halo.addColorStop(0, `rgba(${c.glow}, ${0.45 * a})`);
+        halo.addColorStop(1, `rgba(${c.glow}, 0)`);
+        ctx.fillStyle = halo;
+        ctx.beginPath(); ctx.arc(x, y, 9, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = `rgba(${c.glow}, ${a})`;
+        ctx.beginPath(); ctx.arc(x, y, 1.1 + a * 1.1, 0, Math.PI * 2); ctx.fill();
+      });
+    };
+
+    const tick = (now) => {
+      frame = 0;
+      if (!visible) return;
+      if (now - last > 70) {
+        last = now;
+        const total = cols * rows;
+        for (let k = 0; k < 3 && lit.size < total / 12; k++) {
+          lit.set(Math.floor(Math.random() * total), { start: now, dur: 1600 + Math.random() * 1800 });
+        }
+      }
+      draw(now);
+      frame = requestAnimationFrame(tick);
+    };
+
+    resize();
+    draw(performance.now());
+    const ro = new ResizeObserver(() => { resize(); draw(performance.now()); });
+    ro.observe(canvas);
+    const mo = new MutationObserver(() => draw(performance.now()));
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    let io;
+    if (!reduce) {
+      io = new IntersectionObserver(([e]) => {
+        visible = e.isIntersecting;
+        if (visible && !frame) frame = requestAnimationFrame(tick);
+      });
+      io.observe(canvas);
+    }
+    return () => { cancelAnimationFrame(frame); ro.disconnect(); mo.disconnect(); io?.disconnect(); lit = new Map(); };
+  }, []);
+  return <canvas ref={ref} aria-hidden="true" className="block h-full w-full" />;
+}
+
 // Bulle de la frise ; celle d'une étape en cours émet une onde.
 function Bubble({ current, className = '' }) {
   return (
@@ -324,11 +407,8 @@ function Hero({ t }) {
   return (
     <section id="top" className="relative scroll-mt-16 overflow-hidden">
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 -top-16 h-[780px]">
-        <div data-parallax="-140" className="bg-dots relative h-full w-full">
-          <div className="bg-dots-glow g1" />
-          <div className="bg-dots-glow g2" />
-          <div className="bg-dots-glow g3" />
-          <div className="bg-dots-glow g4" />
+        <div data-parallax="-140" className="bg-dots-mask h-full w-full">
+          <TwinkleDots />
         </div>
       </div>
       <div className="wrap relative pb-16 pt-10 md:pb-24 md:pt-20">
@@ -360,6 +440,7 @@ function Hero({ t }) {
             </span>
           </div>
         </div>
+
 
         <div className="order-1 md:order-2">
           <div data-parallax="-60" className="w-fit">

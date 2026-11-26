@@ -117,24 +117,10 @@
     mask-image: radial-gradient(ellipse 75% 65% at 50% 0%, #000 35%, transparent 100%);
   }
 
-  /* Points bleus qui s'allument puis s'éteignent par zones, au-dessus de la trame. */
-  .bg-dots-glow {
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(rgb(var(--bleu)) 1.6px, rgb(var(--bleu) / 0.25) 2.4px, transparent 3.2px);
-    background-size: 22px 22px;
-    opacity: 0;
-    animation: dots-glow 6s ease-in-out infinite;
+  .bg-dots-mask {
+    -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 0%, #000 35%, transparent 100%);
+    mask-image: radial-gradient(ellipse 75% 65% at 50% 0%, #000 35%, transparent 100%);
   }
-  .bg-dots-glow.g1 { -webkit-mask-image: radial-gradient(circle 220px at 18% 30%, #000, transparent); mask-image: radial-gradient(circle 220px at 18% 30%, #000, transparent); }
-  .bg-dots-glow.g2 { -webkit-mask-image: radial-gradient(circle 260px at 78% 22%, #000, transparent); mask-image: radial-gradient(circle 260px at 78% 22%, #000, transparent); animation-delay: -2s; }
-  .bg-dots-glow.g3 { -webkit-mask-image: radial-gradient(circle 200px at 50% 65%, #000, transparent); mask-image: radial-gradient(circle 200px at 50% 65%, #000, transparent); animation-delay: -4s; }
-  .bg-dots-glow.g4 { -webkit-mask-image: radial-gradient(circle 180px at 92% 70%, #000, transparent); mask-image: radial-gradient(circle 180px at 92% 70%, #000, transparent); animation-delay: -3s; animation-duration: 7.5s; }
-  @keyframes dots-glow {
-    0%, 100% { opacity: 0; }
-    45%, 55% { opacity: 1; }
-  }
-  @media (prefers-reduced-motion: reduce) { .bg-dots-glow { animation: none; } }
 
   .icon-btn {
     @apply grid h-9 w-9 place-items-center rounded-lg text-muted transition-colors hover:bg-soft hover:text-ink;
