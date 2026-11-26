@@ -188,6 +188,28 @@ function useParallax(viewKey) {
   }, [viewKey]);
 }
 
+// Apparition douce des blocs [.reveal] quand ils entrent dans l'écran.
+function useReveal(viewKey) {
+  useEffect(() => {
+    const els = document.querySelectorAll('.reveal:not(.is-visible)');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach((el) => el.classList.add('is-visible'));
+      return undefined;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-visible');
+          observer.unobserve(e.target);
+        }
+      }),
+      { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
+    );
+    els.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [viewKey]);
+}
+
 // Bulle de la frise ; celle d'une étape en cours émet une onde.
 function Bubble({ current, className = '' }) {
   return (
@@ -228,7 +250,10 @@ function Header({ t, lang, onLang, dark, onToggleTheme, active }) {
   return (
     <header className={`sticky top-0 z-40 border-b bg-paper/90 backdrop-blur transition-colors ${scrolled || open ? 'border-line' : 'border-transparent'}`}>
       <div className="wrap flex h-16 items-center justify-between gap-4">
-        <a href="#top" className="text-[17px] font-extrabold tracking-tight">
+        <a href="#top" className="group flex items-center gap-2.5 font-display text-[17px] font-bold tracking-tight">
+          <span aria-hidden="true" className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-bleu to-violet text-[13px] font-bold text-white shadow-md shadow-bleu/30 transition-transform group-hover:rotate-6">
+            ME
+          </span>
           Matéo Esteban<span className="text-bleu-ink">.</span>
         </a>
 
@@ -295,28 +320,56 @@ function Header({ t, lang, onLang, dark, onToggleTheme, active }) {
 
 // --- Accueil ---
 
+// Bandeau défilant des outils maîtrisés.
+const TOOL_NAMES = [...new Set(skillCategories.flatMap((c) => [...c.items, ...(c.extra ?? [])]).map((i) => tr(i.name, 'fr')))];
+
+function ToolMarquee() {
+  const row = [...TOOL_NAMES, ...TOOL_NAMES];
+  return (
+    <div aria-hidden="true" className="marquee-mask mt-12 overflow-hidden md:mt-16">
+      <div className="flex w-max gap-3 motion-safe:animate-marquee">
+        {row.map((name, i) => (
+          <span key={i} className="whitespace-nowrap rounded-full border border-line bg-surface/70 px-4 py-2 font-display text-sm font-medium text-muted backdrop-blur">
+            {name}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Hero({ t }) {
   return (
     <section id="top" className="relative scroll-mt-16 overflow-hidden">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        <div className="aurora-blob -left-32 -top-40 h-[420px] w-[420px] bg-bleu" />
+        <div className="aurora-blob right-[-10%] top-10 h-[380px] w-[380px] bg-violet [animation-delay:-6s]" />
+        <div className="aurora-blob bottom-0 left-1/3 h-[300px] w-[300px] bg-turquoise [animation-delay:-12s]" />
+      </div>
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 -top-16 h-[780px]">
         <div data-parallax="-140" className="bg-dots h-full w-full" />
       </div>
-      <div className="wrap relative pb-16 pt-10 md:pb-24 md:pt-16">
+      <div className="wrap relative pb-16 pt-10 md:pb-24 md:pt-20">
       <div className="grid items-center gap-10 md:grid-cols-[minmax(0,1fr)_auto] md:gap-16">
         <div className="order-2 md:order-1">
-          <span className="inline-flex items-center gap-2.5 rounded-full border border-line bg-paper px-3 py-1 text-sm font-medium text-muted">
+          <span className="inline-flex items-center gap-2.5 rounded-full border border-line bg-surface/80 px-3.5 py-1.5 text-sm font-medium text-muted shadow-sm backdrop-blur">
             <span aria-hidden="true" className="relative grid h-2 w-2 place-items-center">
               <span className="absolute h-2 w-2 rounded-full bg-vert motion-safe:animate-bubble" />
               <span className="relative h-2 w-2 rounded-full bg-vert" />
             </span>
             {t.hero.status}
           </span>
-          <h1 className="mt-6 text-5xl font-extrabold leading-[1.02] tracking-[-0.03em] sm:text-6xl lg:text-7xl">Matéo Esteban</h1>
-          <p className="mt-3 text-2xl font-semibold tracking-tight text-muted sm:text-3xl">{t.hero.role}</p>
+          <h1 className="mt-6 font-display text-5xl font-bold leading-[0.98] tracking-[-0.04em] sm:text-6xl lg:text-[5.5rem]">
+            Matéo <span className="text-gradient">Esteban</span>
+          </h1>
+          <p className="mt-4 flex items-center gap-3 font-display text-2xl font-semibold tracking-tight text-ink/80 sm:text-3xl">
+            <span aria-hidden="true" className="h-px w-10 bg-gradient-to-r from-bleu to-violet" />
+            {t.hero.role}
+          </p>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">{t.hero.lead}</p>
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <a href="#projects" className="btn btn-primary">
-              {t.hero.ctaProjects} <ArrowRight size={17} aria-hidden="true" />
+          <div className="mt-9 flex flex-wrap items-center gap-3">
+            <a href="#projects" className="btn btn-primary group">
+              {t.hero.ctaProjects} <ArrowRight size={17} aria-hidden="true" className="transition-transform group-hover:translate-x-1" />
             </a>
             <a href="#contact" className="btn btn-secondary">{t.hero.ctaContact}</a>
             <span className="ml-1 flex items-center gap-1">
@@ -327,44 +380,60 @@ function Hero({ t }) {
         </div>
 
         <div className="order-1 md:order-2">
-          <div data-parallax="-60">
-            <img
-              src="images/portrait/portrait.jpg"
-              alt={t.hero.portraitAlt}
-              width="476"
-              height="518"
-              className="w-36 rounded-2xl border border-line object-cover sm:w-44 md:w-72 lg:w-80"
-            />
+          <div data-parallax="-60" className="relative w-fit">
+            <div aria-hidden="true" className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-bleu via-violet to-turquoise opacity-60 blur-2xl" />
+            <div className="relative rounded-[1.75rem] bg-gradient-to-br from-bleu via-violet to-turquoise p-[3px] shadow-2xl">
+              <img
+                src="images/portrait/portrait.jpg"
+                alt={t.hero.portraitAlt}
+                width="476"
+                height="518"
+                className="w-36 rounded-[1.6rem] object-cover sm:w-44 md:w-72 lg:w-80"
+              />
+            </div>
+            <div className="absolute -bottom-4 -left-6 hidden items-center gap-2.5 rounded-xl border border-line bg-surface/90 px-3.5 py-2.5 shadow-xl backdrop-blur motion-safe:animate-float md:flex">
+              <span className="grid h-8 w-8 place-items-center rounded-lg bg-bleu/10 text-bleu-ink"><Database size={16} aria-hidden="true" /></span>
+              <span className="font-display text-sm font-semibold">Data Engineering</span>
+            </div>
+            <div className="absolute -right-5 top-8 hidden items-center gap-2 rounded-xl border border-line bg-surface/90 px-3 py-2 shadow-xl backdrop-blur motion-safe:animate-float [animation-delay:-3s] md:flex">
+              <span className="grid h-7 w-7 place-items-center rounded-lg bg-violet/10 text-violet-ink"><BarChart size={15} aria-hidden="true" /></span>
+              <span className="font-display text-sm font-semibold">Power BI · R · Python</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <dl className="mt-14 grid overflow-hidden rounded-xl border border-line bg-paper sm:grid-cols-3 md:mt-20">
+      <dl className="mt-14 grid overflow-hidden rounded-2xl border border-line bg-surface/70 shadow-sm backdrop-blur sm:grid-cols-3 md:mt-24">
         {t.facts.map((f, i) => {
           const Icon = FACT_ICONS[f.icon];
           return (
-            <div key={f.label} className={`flex gap-4 p-5 ${i > 0 ? 'border-t border-line sm:border-l sm:border-t-0' : ''}`}>
-              <Icon size={20} aria-hidden="true" className="mt-0.5 shrink-0 text-bleu-ink" />
+            <div key={f.label} className={`flex gap-4 p-6 ${i > 0 ? 'border-t border-line sm:border-l sm:border-t-0' : ''}`}>
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-bleu/15 to-violet/15 text-bleu-ink">
+                <Icon size={19} aria-hidden="true" />
+              </span>
               <div className="min-w-0">
                 <dt className="text-sm text-muted">{f.label}</dt>
-                <dd className="mt-0.5 font-semibold">{f.value}</dd>
+                <dd className="mt-0.5 font-display font-semibold">{f.value}</dd>
                 <dd className="text-sm text-muted">{f.sub}</dd>
               </div>
             </div>
           );
         })}
       </dl>
+      <ToolMarquee />
       </div>
     </section>
   );
 }
 
 function Section({ id, title, intro, soft = false, children }) {
+  const n = String(NAV_ORDER.indexOf(id) + 1).padStart(2, '0');
   return (
-    <section id={id} className={`scroll-mt-16 border-t border-line ${soft ? 'bg-soft' : ''}`}>
-      <div className="wrap py-16 md:py-24">
-        <header className="mb-10 md:mb-12">
-          <h2 className="text-3xl font-extrabold tracking-tight md:text-4xl">{title}</h2>
+    <section id={id} className={`relative scroll-mt-16 border-t border-line ${soft ? 'bg-soft' : ''}`}>
+      <div className="wrap py-20 md:py-28">
+        <header className="reveal mb-12 md:mb-14">
+          <span className="eyebrow"><span className="text-muted">{n}</span><span aria-hidden="true" className="h-px w-8 bg-bleu/50" />{title}</span>
+          <h2 className="mt-3 font-display text-4xl font-bold tracking-[-0.03em] md:text-5xl">{title}</h2>
           {intro && <p className="mt-3 max-w-2xl text-lg leading-relaxed text-muted">{intro}</p>}
         </header>
         {children}
@@ -373,27 +442,34 @@ function Section({ id, title, intro, soft = false, children }) {
   );
 }
 
-function ProjectCard({ project, t, lang }) {
+function ProjectCard({ project, t, lang, index }) {
   const c = TONES[project.tone];
   const contain = project.fit === 'contain';
   return (
-    <a href={projectHref(project)} className="group flex h-full flex-col overflow-hidden rounded-xl border border-line bg-surface transition hover:-translate-y-0.5 hover:border-ink/25 hover:shadow-sm">
-      <div className={`aspect-[16/10] overflow-hidden border-b border-line ${contain ? 'bg-white' : 'bg-soft'}`}>
+    <a href={projectHref(project)} className="card group flex h-full flex-col overflow-hidden hover:-translate-y-1">
+      <div className={`relative aspect-[16/10] overflow-hidden border-b border-line ${contain ? 'bg-white' : 'bg-soft'}`}>
+        <span className="absolute left-3 top-3 z-10 rounded-full bg-night/75 px-2.5 py-1 font-display text-xs font-semibold text-white backdrop-blur">
+          {String(index + 1).padStart(2, '0')}
+        </span>
+        <span aria-hidden="true" className="absolute right-3 top-3 z-10 grid h-9 w-9 translate-y-1 place-items-center rounded-full bg-white text-night opacity-0 shadow-lg transition duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+          <ArrowUpRight size={17} />
+        </span>
+        <span aria-hidden="true" className="absolute inset-x-0 bottom-0 z-10 h-1/3 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
         <div data-parallax="-20" data-scale="1.12" className={`h-full w-full scale-[1.12] will-change-transform ${contain ? 'p-8' : ''}`}>
           <img
             src={project.cover}
             alt=""
             loading="lazy"
-            className={`h-full w-full transition-transform duration-500 group-hover:scale-[1.03] ${contain ? 'object-contain' : 'object-cover object-top'}`}
+            className={`h-full w-full transition-transform duration-700 group-hover:scale-[1.06] ${contain ? 'object-contain' : 'object-cover object-top'}`}
           />
         </div>
       </div>
-      <div className="flex flex-1 flex-col p-5">
+      <div className="flex flex-1 flex-col p-6">
         <span className={`inline-flex items-center gap-2 text-sm font-semibold ${c.ink}`}>
           <span aria-hidden="true" className={`h-2 w-2 rounded-full ${c.dot}`} />
           {tr(project.cat, lang)}
         </span>
-        <h3 className="mt-2 text-lg font-bold leading-snug">{tr(project.title, lang)}</h3>
+        <h3 className="mt-2 font-display text-xl font-bold leading-snug tracking-tight">{tr(project.title, lang)}</h3>
         <p className="mt-2 text-[15px] leading-relaxed text-muted">{tr(project.desc, lang)}</p>
         <ul className="mt-4 flex flex-wrap gap-1.5">
           {project.tags.map((tag) => <li key={tr(tag, 'fr')} className="chip">{tr(tag, lang)}</li>)}
@@ -411,7 +487,11 @@ function Projects({ t, lang }) {
   return (
     <Section id="projects" title={t.projects.title} intro={t.projects.intro} soft>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {projects.map((p) => <ProjectCard key={p.slug} project={p} t={t} lang={lang} />)}
+        {projects.map((p, i) => (
+          <div key={p.slug} className="reveal" style={{ transitionDelay: `${(i % 3) * 90}ms` }}>
+            <ProjectCard project={p} t={t} lang={lang} index={i} />
+          </div>
+        ))}
       </div>
     </Section>
   );
@@ -424,11 +504,11 @@ function Timeline({ items, t, lang }) {
         const project = exp.project && projects.find((p) => p.slug === exp.project);
         const isLast = i === items.length - 1;
         return (
-          <li key={exp.org} className="group relative pb-10 pl-9 last:pb-0">
+          <li key={exp.org} className="reveal group relative pb-10 pl-9 last:pb-0">
             {!isLast && <span aria-hidden="true" className="absolute bottom-0 left-[7px] top-6 w-0.5 bg-line" />}
             <Bubble current={exp.current} className="absolute left-0 top-1" />
             <p className={`text-sm font-semibold ${exp.current ? 'text-bleu-ink' : 'text-muted'}`}>{tr(exp.period, lang)}</p>
-            <h4 className="mt-1 text-xl font-bold">{exp.org}</h4>
+            <h4 className="mt-1 font-display text-xl font-bold tracking-tight">{exp.org}</h4>
             <p className="font-medium text-muted">{tr(exp.role, lang)}</p>
             <p className="mt-2.5 max-w-prose leading-relaxed">{tr(exp.desc, lang)}</p>
             {project && (
@@ -455,8 +535,11 @@ function Experience({ t, lang }) {
           const { Icon } = col;
           return (
             <div key={col.key}>
-              <h3 className="mb-7 flex items-center gap-2.5 border-b border-line pb-3 text-lg font-bold">
-                <Icon size={19} aria-hidden="true" className="text-bleu-ink" /> {col.label}
+              <h3 className="mb-8 flex items-center gap-3 border-b border-line pb-4 font-display text-lg font-bold">
+                <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-bleu/15 to-violet/15 text-bleu-ink">
+                  <Icon size={18} aria-hidden="true" />
+                </span>
+                {col.label}
               </h3>
               <Timeline items={col.items} t={t} lang={lang} />
             </div>
@@ -484,8 +567,9 @@ function SkillCard({ cat, t, lang }) {
   const tone = TONES[cat.tone];
   const extra = cat.extra ?? [];
   return (
-    <div className="flex flex-col rounded-xl border border-line bg-surface p-6">
-      <h3 className={`text-lg font-bold ${tone.ink}`}>{tr(cat.title, lang)}</h3>
+    <div className="card reveal flex flex-col overflow-hidden p-6">
+      <span aria-hidden="true" className={`absolute inset-x-0 top-0 h-1 ${tone.dot}`} />
+      <h3 className={`font-display text-lg font-bold ${tone.ink}`}>{tr(cat.title, lang)}</h3>
       <ul className="mt-5 space-y-3">
         {cat.items.map((item) => <SkillRow key={tr(item.name, 'fr')} item={item} tone={tone} lang={lang} />)}
       </ul>
@@ -526,36 +610,58 @@ function Skills({ t, lang }) {
 
 function Contact({ t }) {
   const rows = [
-    { key: 'email', Icon: Mail, label: t.contact.email, value: contact.email, href: contact.emailHref, cls: 'sm:col-span-2 lg:col-span-1' },
-    { key: 'linkedin', Icon: Linkedin, label: 'LinkedIn', value: 'Matéo Esteban', href: contact.linkedin, cls: '' },
-    { key: 'github', Icon: Github, label: 'GitHub', value: 'mat-esteban', href: contact.github, cls: '' },
+    { key: 'email', Icon: Mail, label: t.contact.email, value: contact.email, href: contact.emailHref },
+    { key: 'linkedin', Icon: Linkedin, label: 'LinkedIn', value: 'Matéo Esteban', href: contact.linkedin },
+    { key: 'github', Icon: Github, label: 'GitHub', value: 'mat-esteban', href: contact.github },
   ];
   return (
-    <Section id="contact" title={t.contact.title} intro={t.contact.text}>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]">
-        {rows.map((row) => {
-          const { Icon } = row;
-          return (
-            <a
-              key={row.key}
-              href={row.href}
-              target="_blank"
-              rel="noreferrer"
-              className={`group flex items-center gap-4 rounded-xl border border-line bg-surface p-5 transition hover:-translate-y-0.5 hover:border-ink/25 ${row.cls}`}
-            >
-              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-soft text-bleu-ink">
-                <Icon size={20} aria-hidden="true" />
+    <section id="contact" className="scroll-mt-16 border-t border-line">
+      <div className="wrap py-20 md:py-28">
+        <div className="reveal relative overflow-hidden rounded-3xl border border-white/10 bg-night px-6 py-14 text-white shadow-2xl sm:px-12 md:py-20">
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+            <div className="absolute -left-20 -top-24 h-80 w-80 rounded-full bg-bleu opacity-40 blur-3xl" />
+            <div className="absolute -bottom-28 right-0 h-80 w-80 rounded-full bg-violet opacity-40 blur-3xl" />
+          </div>
+          <div className="relative grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center">
+            <div>
+              <span className="inline-flex items-center gap-2 font-display text-sm font-semibold uppercase tracking-[0.18em] text-white/60">
+                04<span aria-hidden="true" className="h-px w-8 bg-white/40" />{t.contact.title}
               </span>
-              <span className="min-w-0 flex-1">
-                <span className="block text-sm text-muted">{row.label}</span>
-                <span className="block font-semibold [overflow-wrap:anywhere]">{row.value}</span>
-              </span>
-              <ArrowUpRight size={18} aria-hidden="true" className="shrink-0 text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-            </a>
-          );
-        })}
+              <h2 className="mt-4 font-display text-4xl font-bold tracking-[-0.03em] md:text-6xl">
+                {t.contact.title}<span className="text-bleu-ink">.</span>
+              </h2>
+              <p className="mt-5 max-w-lg text-lg leading-relaxed text-white/70">{t.contact.text}</p>
+              <a href={contact.emailHref} target="_blank" rel="noreferrer" className="btn mt-8 bg-white text-night shadow-lg hover:-translate-y-0.5">
+                <Mail size={17} aria-hidden="true" /> {contact.email}
+              </a>
+            </div>
+            <div className="grid gap-3">
+              {rows.map((row) => {
+                const { Icon } = row;
+                return (
+                  <a
+                    key={row.key}
+                    href={row.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:-translate-y-0.5 hover:border-white/30 hover:bg-white/10"
+                  >
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-bleu to-violet text-white">
+                      <Icon size={20} aria-hidden="true" />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-sm text-white/60">{row.label}</span>
+                      <span className="block font-semibold [overflow-wrap:anywhere]">{row.value}</span>
+                    </span>
+                    <ArrowUpRight size={18} aria-hidden="true" className="shrink-0 text-white/60 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }
 
@@ -587,7 +693,7 @@ function Gallery({ images, title, t }) {
 
   return (
     <div className="mt-10">
-      <div className="relative overflow-hidden rounded-xl border border-line bg-soft">
+      <div className="relative overflow-hidden rounded-2xl border border-line bg-soft shadow-xl shadow-black/5">
         <button
           type="button"
           onClick={() => setZoomed(true)}
@@ -686,7 +792,7 @@ function ProjectDetail({ project, t, lang }) {
             <span aria-hidden="true" className={`h-2 w-2 rounded-full ${c.dot}`} />
             {tr(project.cat, lang)}
           </span>
-          <h1 className="mt-3 max-w-3xl text-4xl font-extrabold leading-[1.08] tracking-[-0.02em] md:text-5xl">{title}</h1>
+          <h1 className="mt-3 max-w-3xl font-display text-4xl font-bold leading-[1.05] tracking-[-0.03em] md:text-6xl">{title}</h1>
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">{tr(project.desc, lang)}</p>
         </div>
         {project.link && (
@@ -709,8 +815,8 @@ function ProjectDetail({ project, t, lang }) {
             {n < steps.length - 1 && (
               <span aria-hidden="true" className="absolute -bottom-10 left-[19px] top-11 w-0.5 bg-line" />
             )}
-            <span className="relative grid h-10 w-10 place-items-center rounded-full border-2 border-bleu bg-paper font-bold text-bleu-ink">{n + 1}</span>
-            <h2 className="self-center text-xl font-bold tracking-tight md:self-start md:pt-1.5 md:text-2xl">{label}</h2>
+            <span className="relative grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-bleu to-violet font-display font-bold text-white shadow-md shadow-bleu/30">{n + 1}</span>
+            <h2 className="self-center font-display text-xl font-bold tracking-tight md:self-start md:pt-1.5 md:text-2xl">{label}</h2>
             <p className="col-start-2 max-w-prose whitespace-pre-line text-[17px] leading-[1.75] md:col-start-3 md:row-start-1">{text}</p>
           </li>
         ))}
@@ -721,7 +827,7 @@ function ProjectDetail({ project, t, lang }) {
           <a
             key={label}
             href={projectHref(p)}
-            className={`group flex flex-col rounded-xl border border-line bg-surface p-5 transition hover:-translate-y-0.5 hover:border-ink/25 ${k === 1 ? 'sm:items-end sm:text-right' : ''}`}
+            className={`card group flex flex-col p-5 hover:-translate-y-0.5 ${k === 1 ? 'sm:items-end sm:text-right' : ''}`}
           >
             <span className="inline-flex items-center gap-1.5 text-sm font-medium text-muted">
               {k === 0 && <ArrowLeft size={15} aria-hidden="true" />} {label} {k === 1 && <ArrowRight size={15} aria-hidden="true" />}
@@ -750,6 +856,7 @@ export default function App() {
   const project = route.project;
   const active = useActiveSection(!project);
   useParallax(project ? project.slug : 'home');
+  useReveal(`${project ? project.slug : 'home'}-${lang}`);
 
   useEffect(() => {
     const onHash = () => setRoute(parseHash());
@@ -815,7 +922,7 @@ export default function App() {
       </main>
       <footer className="border-t border-line">
         <div className="wrap flex flex-col gap-1 py-8 text-sm text-muted sm:flex-row sm:justify-between">
-          <p>© {new Date().getFullYear()} Matéo Esteban</p>
+          <p className="font-display font-semibold text-ink">© {new Date().getFullYear()} Matéo Esteban<span className="text-bleu-ink">.</span></p>
           <p>{t.footer}</p>
         </div>
       </footer>
