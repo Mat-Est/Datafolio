@@ -1,16 +1,44 @@
-# React + Vite
+# Datafolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Portfolio de **Matéo Esteban**, étudiant en Master SIAD à l'Université de Lille et data engineer en alternance chez Decathlon Electronics.
 
-Currently, two official plugins are available:
+Site en ligne : https://mat-est.github.io/Datafolio/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Contenu
 
-## React Compiler
+- **Projets** : analyses et applications de données (R Shiny, Python, Power BI…), chacune avec sa fiche (contexte, méthodologie, résultats) et sa galerie d'images.
+- **Parcours** : expérience professionnelle et formation.
+- **Compétences** : outils et méthodes, regroupés par domaine.
+- **Contact** : e-mail, LinkedIn et GitHub.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Le site est disponible en français, anglais, espagnol et allemand, en thème clair ou sombre.
 
-## Expanding the ESLint configuration
+## Technologies
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+React 19, Vite, Tailwind CSS et les icônes lucide-react. Le site est publié sur GitHub Pages.
+
+## Organisation du code
+
+| Fichier | Rôle |
+| --- | --- |
+| `src/data.js` | Tous les textes : traductions, parcours, compétences et projets |
+| `src/App.jsx` | Les composants de la page |
+| `src/index.css` | Couleurs (clair et sombre) et styles communs |
+| `public/images/` | Portrait et images des projets (un dossier par projet) |
+
+Pour modifier un texte ou ajouter un projet, il suffit en général d'éditer `src/data.js`.
+
+## Lancer le site en local
+
+```bash
+npm install
+npm run dev
+```
+
+## Mettre le site en ligne
+
+```bash
+npm run deploy
+```
+
+Cette commande construit le site et le publie sur la branche `gh-pages`. Dans les réglages du dépôt (**Settings → Pages**), la source doit être la branche `gh-pages`, dossier `/ (root)`.
