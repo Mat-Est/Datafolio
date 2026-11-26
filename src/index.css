@@ -79,11 +79,45 @@
   .btn {
     @apply inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-[15px] font-semibold transition;
   }
-  .btn-primary { @apply bg-bleu text-white hover:brightness-110; }
-  .btn-secondary { @apply border border-line bg-surface text-ink hover:border-ink/30; }
+  .btn-primary {
+    @apply bg-gradient-to-r from-bleu to-violet text-white shadow-lg shadow-bleu/25 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-bleu/30;
+  }
+  .btn-secondary { @apply border border-line bg-surface/70 text-ink backdrop-blur hover:-translate-y-0.5 hover:border-ink/30; }
+
+  /* Titre en dégradé bleu → violet → turquoise. */
+  .text-gradient {
+    @apply bg-gradient-to-r from-bleu-ink via-violet-ink to-turquoise-ink bg-clip-text text-transparent;
+  }
+
+  /* Halos colorés flous derrière l'accueil. */
+  .aurora-blob { @apply absolute rounded-full opacity-40 blur-3xl motion-safe:animate-aurora dark:opacity-25; }
+
+  /* Petit libellé au-dessus des titres de section. */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 font-display text-sm font-semibold uppercase tracking-[0.18em] text-bleu-ink;
+  }
+
+  /* Carte avec bordure lumineuse au survol. */
+  .card {
+    @apply relative rounded-2xl border border-line bg-surface transition duration-300;
+  }
+  .card:hover {
+    border-color: rgb(var(--bleu) / 0.35);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 18px 40px -18px rgb(var(--bleu) / 0.35);
+  }
+
+  /* Apparition au défilement. */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+  .reveal.is-visible { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+
+  .marquee-mask {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  }
 
   .chip {
-    @apply rounded-md border border-line bg-surface px-2.5 py-1 text-[13px] font-medium text-muted;
+    @apply rounded-full border border-line bg-soft px-2.5 py-1 text-[13px] font-medium text-muted;
   }
 
   /* Trame de points discrète derrière le haut de page (effet de parallaxe). */

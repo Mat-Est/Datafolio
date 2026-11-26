@@ -34,12 +34,22 @@ export default {
           '0%': { transform: 'scale(1)', opacity: '0.55' },
           '80%, 100%': { transform: 'scale(2.8)', opacity: '0' },
         },
+        marquee: { from: { transform: 'translateX(0)' }, to: { transform: 'translateX(-50%)' } },
+        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-8px)' } },
+        aurora: {
+          '0%': { transform: 'translate3d(0,0,0) scale(1)' },
+          '100%': { transform: 'translate3d(6%,4%,0) scale(1.15)' },
+        },
       },
       animation: {
         bubble: 'bubble 2.2s cubic-bezier(0, 0, 0.2, 1) infinite',
+        marquee: 'marquee 40s linear infinite',
+        float: 'float 6s ease-in-out infinite',
+        aurora: 'aurora 18s ease-in-out infinite alternate',
       },
       fontFamily: {
         sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+        display: ['"Space Grotesk"', 'Figtree', ...defaultTheme.fontFamily.sans],
       },
     },
   },
