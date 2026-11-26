@@ -251,7 +251,7 @@ function Header({ t, lang, onLang, dark, onToggleTheme, active }) {
     <header className={`sticky top-0 z-40 border-b bg-paper/90 backdrop-blur transition-colors ${scrolled || open ? 'border-line' : 'border-transparent'}`}>
       <div className="wrap flex h-16 items-center justify-between gap-4">
         <a href="#top" className="group flex items-center gap-2.5 font-display text-[17px] font-bold tracking-tight">
-          <span aria-hidden="true" className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-bleu to-violet text-[13px] font-bold text-white shadow-md shadow-bleu/30 transition-transform group-hover:rotate-6">
+          <span aria-hidden="true" className="grid h-8 w-8 place-items-center rounded-lg bg-bleu text-[13px] font-bold text-white shadow-md shadow-bleu/30 transition-transform group-hover:rotate-6">
             ME
           </span>
           Matéo Esteban<span className="text-bleu-ink">.</span>
@@ -320,39 +320,16 @@ function Header({ t, lang, onLang, dark, onToggleTheme, active }) {
 
 // --- Accueil ---
 
-// Bandeau défilant des outils maîtrisés.
-const TOOL_NAMES = [...new Set(skillCategories.flatMap((c) => [...c.items, ...(c.extra ?? [])]).map((i) => tr(i.name, 'fr')))];
-
-function ToolMarquee() {
-  const row = [...TOOL_NAMES, ...TOOL_NAMES];
-  return (
-    <div aria-hidden="true" className="marquee-mask mt-12 overflow-hidden md:mt-16">
-      <div className="flex w-max gap-3 motion-safe:animate-marquee">
-        {row.map((name, i) => (
-          <span key={i} className="whitespace-nowrap rounded-full border border-line bg-surface/70 px-4 py-2 font-display text-sm font-medium text-muted backdrop-blur">
-            {name}
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 function Hero({ t }) {
   return (
     <section id="top" className="relative scroll-mt-16 overflow-hidden">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="aurora-blob -left-32 -top-40 h-[420px] w-[420px] bg-bleu" />
-        <div className="aurora-blob right-[-10%] top-10 h-[380px] w-[380px] bg-violet [animation-delay:-6s]" />
-        <div className="aurora-blob bottom-0 left-1/3 h-[300px] w-[300px] bg-turquoise [animation-delay:-12s]" />
-      </div>
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 -top-16 h-[780px]">
         <div data-parallax="-140" className="bg-dots h-full w-full" />
       </div>
       <div className="wrap relative pb-16 pt-10 md:pb-24 md:pt-20">
-      <div className="grid items-center gap-10 md:grid-cols-[minmax(0,1fr)_auto] md:gap-16">
+      <div className="grid items-center gap-12 md:grid-cols-[minmax(0,1fr)_auto] md:gap-20">
         <div className="order-2 md:order-1">
-          <span className="inline-flex items-center gap-2.5 rounded-full border border-line bg-surface/80 px-3.5 py-1.5 text-sm font-medium text-muted shadow-sm backdrop-blur">
+          <span className="inline-flex items-center gap-2.5 rounded-full bg-bleu/10 px-3.5 py-1.5 text-sm font-semibold text-bleu-ink">
             <span aria-hidden="true" className="relative grid h-2 w-2 place-items-center">
               <span className="absolute h-2 w-2 rounded-full bg-vert motion-safe:animate-bubble" />
               <span className="relative h-2 w-2 rounded-full bg-vert" />
@@ -360,10 +337,10 @@ function Hero({ t }) {
             {t.hero.status}
           </span>
           <h1 className="mt-6 font-display text-5xl font-bold leading-[0.98] tracking-[-0.04em] sm:text-6xl lg:text-[5.5rem]">
-            Matéo <span className="text-gradient">Esteban</span>
+            Matéo Esteban<span className="text-bleu-ink">.</span>
           </h1>
-          <p className="mt-4 flex items-center gap-3 font-display text-2xl font-semibold tracking-tight text-ink/80 sm:text-3xl">
-            <span aria-hidden="true" className="h-px w-10 bg-gradient-to-r from-bleu to-violet" />
+          <p className="mt-4 flex items-center gap-3 font-display text-2xl font-semibold tracking-tight text-bleu-ink sm:text-3xl">
+            <span aria-hidden="true" className="h-1 w-10 rounded-full bg-bleu" />
             {t.hero.role}
           </p>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">{t.hero.lead}</p>
@@ -380,24 +357,16 @@ function Hero({ t }) {
         </div>
 
         <div className="order-1 md:order-2">
-          <div data-parallax="-60" className="relative w-fit">
-            <div aria-hidden="true" className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-bleu via-violet to-turquoise opacity-60 blur-2xl" />
-            <div className="relative rounded-[1.75rem] bg-gradient-to-br from-bleu via-violet to-turquoise p-[3px] shadow-2xl">
+          <div data-parallax="-60" className="w-fit">
+            <div className="relative motion-safe:animate-float">
+              <div aria-hidden="true" className="absolute inset-0 translate-x-3 translate-y-3 rounded-[1.75rem] bg-bleu md:translate-x-5 md:translate-y-5" />
               <img
                 src="images/portrait/portrait.jpg"
                 alt={t.hero.portraitAlt}
                 width="476"
                 height="518"
-                className="w-36 rounded-[1.6rem] object-cover sm:w-44 md:w-72 lg:w-80"
+                className="relative w-36 rounded-[1.75rem] border border-line object-cover shadow-xl sm:w-44 md:w-72 lg:w-80"
               />
-            </div>
-            <div className="absolute -bottom-4 -left-6 hidden items-center gap-2.5 rounded-xl border border-line bg-surface/90 px-3.5 py-2.5 shadow-xl backdrop-blur motion-safe:animate-float md:flex">
-              <span className="grid h-8 w-8 place-items-center rounded-lg bg-bleu/10 text-bleu-ink"><Database size={16} aria-hidden="true" /></span>
-              <span className="font-display text-sm font-semibold">Data Engineering</span>
-            </div>
-            <div className="absolute -right-5 top-8 hidden items-center gap-2 rounded-xl border border-line bg-surface/90 px-3 py-2 shadow-xl backdrop-blur motion-safe:animate-float [animation-delay:-3s] md:flex">
-              <span className="grid h-7 w-7 place-items-center rounded-lg bg-violet/10 text-violet-ink"><BarChart size={15} aria-hidden="true" /></span>
-              <span className="font-display text-sm font-semibold">Power BI · R · Python</span>
             </div>
           </div>
         </div>
@@ -408,7 +377,7 @@ function Hero({ t }) {
           const Icon = FACT_ICONS[f.icon];
           return (
             <div key={f.label} className={`flex gap-4 p-6 ${i > 0 ? 'border-t border-line sm:border-l sm:border-t-0' : ''}`}>
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-bleu/15 to-violet/15 text-bleu-ink">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-bleu/10 text-bleu-ink">
                 <Icon size={19} aria-hidden="true" />
               </span>
               <div className="min-w-0">
@@ -420,7 +389,6 @@ function Hero({ t }) {
           );
         })}
       </dl>
-      <ToolMarquee />
       </div>
     </section>
   );
@@ -536,7 +504,7 @@ function Experience({ t, lang }) {
           return (
             <div key={col.key}>
               <h3 className="mb-8 flex items-center gap-3 border-b border-line pb-4 font-display text-lg font-bold">
-                <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-bleu/15 to-violet/15 text-bleu-ink">
+                <span className="grid h-9 w-9 place-items-center rounded-xl bg-bleu/10 text-bleu-ink">
                   <Icon size={18} aria-hidden="true" />
                 </span>
                 {col.label}
@@ -553,11 +521,11 @@ function Experience({ t, lang }) {
 function SkillRow({ item, tone, lang }) {
   const Icon = SKILL_ICONS[item.icon];
   return (
-    <li className="flex items-center gap-3">
-      <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-lg ${tone.soft} ${tone.ink}`}>
-        <Icon size={18} aria-hidden="true" />
+    <li className="group/skill -mx-2 flex cursor-default items-center gap-3 rounded-xl px-2 py-1 transition-all duration-300 hover:translate-x-1 hover:bg-soft">
+      <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-lg ${tone.soft} ${tone.ink} transition-all duration-300 group-hover/skill:-rotate-6 group-hover/skill:scale-110 group-hover/skill:shadow-md`}>
+        <Icon size={18} aria-hidden="true" className="transition-transform duration-300 group-hover/skill:scale-110" />
       </span>
-      <span className="text-[15px] font-medium">{tr(item.name, lang)}</span>
+      <span className="text-[15px] font-medium transition-colors duration-300 group-hover/skill:text-ink">{tr(item.name, lang)}</span>
     </li>
   );
 }
@@ -617,10 +585,10 @@ function Contact({ t }) {
   return (
     <section id="contact" className="scroll-mt-16 border-t border-line">
       <div className="wrap py-20 md:py-28">
-        <div className="reveal relative overflow-hidden rounded-3xl border border-white/10 bg-night px-6 py-14 text-white shadow-2xl sm:px-12 md:py-20">
+        <div className="reveal relative overflow-hidden rounded-3xl bg-bleu px-6 py-14 text-white shadow-2xl sm:px-12 md:py-20">
           <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-            <div className="absolute -left-20 -top-24 h-80 w-80 rounded-full bg-bleu opacity-40 blur-3xl" />
-            <div className="absolute -bottom-28 right-0 h-80 w-80 rounded-full bg-violet opacity-40 blur-3xl" />
+            <div className="absolute -right-24 -top-24 h-96 w-96 rounded-full border-[40px] border-white/5" />
+            <div className="absolute -bottom-32 -left-16 h-72 w-72 rounded-full border-[32px] border-white/5" />
           </div>
           <div className="relative grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center">
             <div>
@@ -628,10 +596,10 @@ function Contact({ t }) {
                 04<span aria-hidden="true" className="h-px w-8 bg-white/40" />{t.contact.title}
               </span>
               <h2 className="mt-4 font-display text-4xl font-bold tracking-[-0.03em] md:text-6xl">
-                {t.contact.title}<span className="text-bleu-ink">.</span>
+                {t.contact.title}<span className="text-white/50">.</span>
               </h2>
               <p className="mt-5 max-w-lg text-lg leading-relaxed text-white/70">{t.contact.text}</p>
-              <a href={contact.emailHref} target="_blank" rel="noreferrer" className="btn mt-8 bg-white text-night shadow-lg hover:-translate-y-0.5">
+              <a href={contact.emailHref} target="_blank" rel="noreferrer" className="btn mt-8 bg-white text-bleu shadow-lg hover:-translate-y-0.5">
                 <Mail size={17} aria-hidden="true" /> {contact.email}
               </a>
             </div>
@@ -646,7 +614,7 @@ function Contact({ t }) {
                     rel="noreferrer"
                     className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:-translate-y-0.5 hover:border-white/30 hover:bg-white/10"
                   >
-                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-bleu to-violet text-white">
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-white text-bleu">
                       <Icon size={20} aria-hidden="true" />
                     </span>
                     <span className="min-w-0 flex-1">
@@ -815,7 +783,7 @@ function ProjectDetail({ project, t, lang }) {
             {n < steps.length - 1 && (
               <span aria-hidden="true" className="absolute -bottom-10 left-[19px] top-11 w-0.5 bg-line" />
             )}
-            <span className="relative grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-bleu to-violet font-display font-bold text-white shadow-md shadow-bleu/30">{n + 1}</span>
+            <span className="relative grid h-10 w-10 place-items-center rounded-full bg-bleu font-display font-bold text-white shadow-md shadow-bleu/30">{n + 1}</span>
             <h2 className="self-center font-display text-xl font-bold tracking-tight md:self-start md:pt-1.5 md:text-2xl">{label}</h2>
             <p className="col-start-2 max-w-prose whitespace-pre-line text-[17px] leading-[1.75] md:col-start-3 md:row-start-1">{text}</p>
           </li>

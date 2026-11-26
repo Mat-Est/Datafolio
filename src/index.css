@@ -14,7 +14,7 @@
     --line: 230 232 236;
     --night: 17 20 24;
 
-    --bleu: 31 94 255;
+    --bleu: 54 67 186;
     --rouge: 223 36 28;
     --jaune: 255 180 0;
     --vert: 0 128 74;
@@ -22,7 +22,7 @@
     --turquoise: 0 124 136;
     --orange: 234 88 12;
 
-    --bleu-ink: 31 94 255;
+    --bleu-ink: 54 67 186;
     --rouge-ink: 204 31 25;
     --jaune-ink: 143 97 0;
     --vert-ink: 0 128 74;
@@ -42,7 +42,7 @@
     --line: 44 51 62;
     --night: 9 11 15;
 
-    --bleu-ink: 120 165 255;
+    --bleu-ink: 150 160 255;
     --rouge-ink: 255 120 112;
     --jaune-ink: 255 196 61;
     --vert-ink: 70 210 145;
@@ -80,17 +80,9 @@
     @apply inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-[15px] font-semibold transition;
   }
   .btn-primary {
-    @apply bg-gradient-to-r from-bleu to-violet text-white shadow-lg shadow-bleu/25 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-bleu/30;
+    @apply bg-bleu text-white shadow-lg shadow-bleu/25 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-bleu/30;
   }
   .btn-secondary { @apply border border-line bg-surface/70 text-ink backdrop-blur hover:-translate-y-0.5 hover:border-ink/30; }
-
-  /* Titre en dégradé bleu → violet → turquoise. */
-  .text-gradient {
-    @apply bg-gradient-to-r from-bleu-ink via-violet-ink to-turquoise-ink bg-clip-text text-transparent;
-  }
-
-  /* Halos colorés flous derrière l'accueil. */
-  .aurora-blob { @apply absolute rounded-full opacity-40 blur-3xl motion-safe:animate-aurora dark:opacity-25; }
 
   /* Petit libellé au-dessus des titres de section. */
   .eyebrow {
@@ -111,10 +103,7 @@
   .reveal.is-visible { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
 
-  .marquee-mask {
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-  }
+
 
   .chip {
     @apply rounded-full border border-line bg-soft px-2.5 py-1 text-[13px] font-medium text-muted;
