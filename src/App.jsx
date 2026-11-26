@@ -915,7 +915,33 @@ export default function App() {
   useEffect(() => {
     const onHash = () => setRoute(parseHash());
     window.addEventListener('hashchange', onHash);
-    return () => window.removeEventListener('hashchange', onHash);
+    window.addEventListener('popstate', onHash);
+
+    // Liens vers une section (#projects, #top…) : défilement sans laisser l'ancre dans l'URL.
+    const onClick = (e) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const a = e.target.closest?.('a[href^="#"]');
+      if (!a) return;
+      const href = a.getAttribute('href');
+      if (href.startsWith('#/')) return; // fiche projet : routage normal
+      e.preventDefault();
+      const id = href.slice(1);
+      const clean = window.location.pathname + window.location.search;
+      if (parseHash().project) {
+        window.history.pushState(null, '', clean);
+        setRoute({ project: null, section: id });
+        return;
+      }
+      window.history.replaceState(null, '', clean);
+      if (id === 'top' || !id) window.scrollTo({ top: 0, behavior: 'smooth' });
+      else document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    };
+    document.addEventListener('click', onClick);
+    return () => {
+      window.removeEventListener('hashchange', onHash);
+      window.removeEventListener('popstate', onHash);
+      document.removeEventListener('click', onClick);
+    };
   }, []);
 
   // Positionnement après un changement de vue (fiche projet <-> accueil).
@@ -935,6 +961,8 @@ export default function App() {
       const target = document.getElementById(route.section ?? (was ? 'projects' : ''));
       if (target) target.scrollIntoView({ behavior: 'instant' });
       else if (was) window.scrollTo({ top: 0, behavior: 'instant' });
+      // Une ancre de section saisie dans l'URL est retirée une fois la page positionnée.
+      if (route.section) window.history.replaceState(null, '', window.location.pathname + window.location.search);
     }
   }, [route]);
 
