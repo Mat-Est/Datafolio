@@ -267,11 +267,11 @@ const projectsData = [
     tags: ["R", "Statistiques", "Visualisation"],
     gradient: "from-purple-600 to-pink-600",
     images: [
-      "images/Reporting multivariée – Analyse de la criminalité aux États-Unis/Reporting-1.gif",
-      "images/Reporting multivariée – Analyse de la criminalité aux États-Unis/Reporting-2.jpg",
-      "images/Reporting multivariée – Analyse de la criminalité aux États-Unis/Reporting-3.jpg",
-      "images/Reporting multivariée – Analyse de la criminalité aux États-Unis/Reporting-4.jpg",
-      "images/Reporting multivariée – Analyse de la criminalité aux États-Unis/Reporting-5.jpg"
+      "images/criminalite-usa/Reporting-1.gif",
+      "images/criminalite-usa/Reporting-2.jpg",
+      "images/criminalite-usa/Reporting-3.jpg",
+      "images/criminalite-usa/Reporting-4.jpg",
+      "images/criminalite-usa/Reporting-5.jpg"
     ],
     link: "https://mateo-esteban.shinyapps.io/Application/"
   },
@@ -306,9 +306,9 @@ const projectsData = [
     tags: ["R-Shiny", "API", "Dataviz"],
     gradient: "from-green-500 to-emerald-600",
     images: [
-      "images/Application R-Shiny Spotify/spotify-1.gif",
-      "images/Application R-Shiny Spotify/spotify-2.jpg",
-      "images/Application R-Shiny Spotify/spotify-3.jpg"
+      "images/spotify/spotify-1.gif",
+      "images/spotify/spotify-2.jpg",
+      "images/spotify/spotify-3.jpg"
     ],
     link: null
   },
@@ -342,7 +342,7 @@ const projectsData = [
     },
     tags: ["Statistiques", "Santé", "Excel"],
     gradient: "from-yellow-400 to-amber-600",
-    images: ["images/Projet EPSM/image.jpg"],
+    images: ["images/epsm/image.jpg"],
     link: null
   },
   {
@@ -375,7 +375,7 @@ const projectsData = [
     },
     tags: ["BI", "Budget", "Excel"],
     gradient: "from-orange-500 to-red-600",
-    images: ["images/Reporting budget mensuel/image.jpg"],
+    images: ["images/budget/image.jpg"],
     link: null
   },
   {
@@ -408,7 +408,7 @@ const projectsData = [
     },
     tags: ["Python", "HTML", "Data"],
     gradient: "from-cyan-500 to-blue-500",
-    images: ["images/Scrapping/image.jpg"],
+    images: ["images/scraping/image.jpg"],
     link: null
   },
   {
@@ -426,7 +426,7 @@ const projectsData = [
     tags: ["Stage", "Bancaire", "Data Analysis"],
     gradient: "from-emerald-600 to-green-700",
     images: [
-      "images/Stage/image.jpg"
+      "images/stage/image.jpg"
     ],
     link: null
   }
