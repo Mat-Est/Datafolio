@@ -449,8 +449,8 @@ function Hero({ t }) {
               <img
                 src="images/portrait/portrait.jpg"
                 alt={t.hero.portraitAlt}
-                width="476"
-                height="518"
+                width="800"
+                height="871"
                 className="relative w-36 rounded-[1.75rem] border border-line object-cover shadow-xl sm:w-44 md:w-72 lg:w-80"
               />
             </div>
