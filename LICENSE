@@ -1,0 +1,52 @@
+Copyright (c) 2026 Matéo Esteban
+Tous droits réservés.
+
+Licence d'utilisation du dépôt « Datafolio »
+=============================================
+
+Ce dépôt contient le portfolio personnel de Matéo Esteban : le code source du site,
+son design, ses textes et ses images (ci-après « le Contenu »).
+
+1. Consultation
+   Vous pouvez consulter le Contenu et vous en inspirer à titre personnel ou éducatif.
+
+2. Réutilisation du code source
+   Le code source (fichiers du dossier src/ et fichiers de configuration) peut être
+   copié, modifié ou redistribué, en tout ou partie, uniquement si les deux conditions
+   suivantes sont remplies :
+   a) l'usage est non commercial ;
+   b) l'auteur est clairement crédité, de façon visible, avec la mention
+      « Basé sur Datafolio de Matéo Esteban » et un lien vers
+      https://github.com/Mat-Est/Datafolio
+
+3. Contenus personnels
+   La photo, les textes de présentation, le parcours, les descriptions de projets,
+   les images et captures des projets ainsi que le design du site ne peuvent pas être
+   copiés, reproduits ou réutilisés, même en créditant l'auteur, sans autorisation
+   écrite préalable de Matéo Esteban.
+
+4. Usage commercial
+   Toute utilisation commerciale du Contenu, en tout ou partie, est interdite sans
+   autorisation écrite préalable de Matéo Esteban.
+
+5. Se présenter comme l'auteur
+   Il est interdit de présenter tout ou partie du Contenu comme son propre travail.
+
+6. Garantie
+   Le Contenu est fourni « tel quel », sans aucune garantie. L'auteur ne peut être tenu
+   responsable d'aucun dommage lié à son utilisation.
+
+Pour toute demande d'autorisation : https://www.linkedin.com/in/mat%C3%A9o-esteban-9409942a8/
+
+---------------------------------------------------------------------------------------
+
+English summary
+
+Copyright (c) 2026 Matéo Esteban. All rights reserved.
+You may view this repository and learn from it. The source code may be reused for
+non-commercial purposes only, with visible credit ("Based on Datafolio by Matéo Esteban"
+and a link to https://github.com/Mat-Est/Datafolio). Personal content (photo, texts,
+career details, project descriptions and images) and the site design may not be reused
+without prior written permission. Commercial use requires prior written permission.
+The content is provided "as is", without warranty of any kind. The French version above
+prevails.

@@ -42,3 +42,7 @@ npm run deploy
 ```
 
 Cette commande construit le site et le publie sur la branche `gh-pages`. Dans les réglages du dépôt (**Settings → Pages**), la source doit être la branche `gh-pages`, dossier `/ (root)`.
+
+## Licence
+
+© 2026 Matéo Esteban — tous droits réservés. Le code peut être réutilisé à des fins non commerciales en créditant l'auteur (« Basé sur Datafolio de Matéo Esteban » et un lien vers ce dépôt). La photo, les textes, les images des projets et le design ne peuvent pas être réutilisés sans autorisation. Voir le fichier [LICENSE](LICENSE).
