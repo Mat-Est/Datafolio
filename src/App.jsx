@@ -496,28 +496,47 @@ function Section({ id, title, intro, soft = false, children }) {
   );
 }
 
-function ProjectCard({ project, t, lang, index }) {
+// Visuel d'un projet, présenté de façon homogène sur un fond doux de la couleur du projet :
+// - « window » : capture d'écran dans une fenêtre (barre à trois points), qui dépasse en bas ;
+// - « frame »  : image encadrée, entière ;
+// - « logo »   : logo ou illustration centré sur une carte blanche.
+function ProjectCover({ project, className = '' }) {
   const c = TONES[project.tone];
-  const contain = project.fit === 'contain';
+  const style = project.coverStyle ?? 'frame';
+  return (
+    <div className={`relative overflow-hidden ${c.soft} ${className}`}>
+      <span aria-hidden="true" className="absolute right-3 top-3 z-10 grid h-9 w-9 translate-y-1 place-items-center rounded-full bg-white text-night opacity-0 shadow-lg transition duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+        <ArrowUpRight size={17} />
+      </span>
+      <div data-parallax="-14" className="absolute inset-0 will-change-transform">
+        {style === 'window' && (
+          <div className="absolute inset-x-[9%] bottom-[-6%] top-[12%] overflow-hidden rounded-t-xl border border-black/10 bg-white shadow-xl shadow-black/10 transition-transform duration-500 group-hover:-translate-y-1.5">
+            <div aria-hidden="true" className="flex h-5 items-center gap-1 border-b border-black/5 bg-[#f1f2f5] px-2.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-black/15" /><span className="h-1.5 w-1.5 rounded-full bg-black/15" /><span className="h-1.5 w-1.5 rounded-full bg-black/15" />
+            </div>
+            <img src={project.cover} alt="" loading="lazy" className="h-[calc(100%-1.25rem)] w-full object-cover object-top" />
+          </div>
+        )}
+        {style === 'frame' && (
+          <div className="absolute inset-[9%] overflow-hidden rounded-xl border border-black/10 shadow-xl shadow-black/10 transition-transform duration-500 group-hover:-translate-y-1.5">
+            <img src={project.cover} alt="" loading="lazy" className="h-full w-full object-cover" />
+          </div>
+        )}
+        {style === 'logo' && (
+          <div className="absolute inset-[13%] rounded-xl border border-black/5 bg-white p-[5%] shadow-lg shadow-black/5 transition-transform duration-500 group-hover:-translate-y-1.5">
+            <img src={project.cover} alt="" loading="lazy" className="h-full w-full object-contain" />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ProjectCard({ project, t, lang }) {
+  const c = TONES[project.tone];
   return (
     <a href={projectHref(project)} className="card group flex h-full flex-col overflow-hidden hover:-translate-y-1">
-      <div className={`relative aspect-[16/10] overflow-hidden border-b border-line ${contain ? 'bg-white' : 'bg-soft'}`}>
-        <span className="absolute left-3 top-3 z-10 rounded-full bg-night/75 px-2.5 py-1 font-display text-xs font-semibold text-white backdrop-blur">
-          {String(index + 1).padStart(2, '0')}
-        </span>
-        <span aria-hidden="true" className="absolute right-3 top-3 z-10 grid h-9 w-9 translate-y-1 place-items-center rounded-full bg-white text-night opacity-0 shadow-lg transition duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-          <ArrowUpRight size={17} />
-        </span>
-        <span aria-hidden="true" className="absolute inset-x-0 bottom-0 z-10 h-1/3 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-        <div data-parallax="-20" data-scale="1.12" className={`h-full w-full scale-[1.12] will-change-transform ${contain ? 'p-8' : ''}`}>
-          <img
-            src={project.cover}
-            alt=""
-            loading="lazy"
-            className={`h-full w-full transition-transform duration-700 group-hover:scale-[1.06] ${contain ? 'object-contain' : 'object-cover object-top'}`}
-          />
-        </div>
-      </div>
+      <ProjectCover project={project} className="aspect-[16/10] border-b border-line" />
       <div className="flex flex-1 flex-col p-6">
         <span className={`inline-flex items-center gap-2 text-sm font-semibold ${c.ink}`}>
           <span aria-hidden="true" className={`h-2 w-2 rounded-full ${c.dot}`} />
