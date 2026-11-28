@@ -356,6 +356,46 @@ export const projects = [
     linkType: 'code',
   },
   {
+    slug: 'jarvis',
+    tone: 'turquoise',
+    cat: { fr: 'IA locale · projet personnel', en: 'Local AI · personal project', es: 'IA local · proyecto personal', de: 'Lokale KI · persönliches Projekt' },
+    title: { fr: 'Jarvis', en: 'Jarvis', es: 'Jarvis', de: 'Jarvis' },
+    desc: {
+      fr: 'Assistant IA personnel qui tourne en local : il résume les mails, suit l’actualité, gère fichiers, notes et rappels, et s’affiche sous la forme d’un orbe piloté au clavier.',
+      en: 'A personal AI assistant that runs locally: it summarises emails, follows the news, handles files, notes and reminders, and appears as a keyboard-controlled orb.',
+      es: 'Asistente de IA personal que funciona en local: resume correos, sigue la actualidad, gestiona archivos, notas y recordatorios, y se muestra como un orbe controlado con el teclado.',
+      de: 'Ein persönlicher KI-Assistent, der lokal läuft: Er fasst E-Mails zusammen, verfolgt Nachrichten, verwaltet Dateien, Notizen und Erinnerungen und erscheint als per Tastatur gesteuerte Kugel.',
+    },
+    details: {
+      fr: {
+        contexte: 'Projet personnel : un assistant IA « local-first », dont le raisonnement et la mémoire restent sur ma machine. Internet ne sert qu’aux sources choisies (actualité, météo, mails). Le même code doit tourner sur un PC modeste (profil Low Config) comme sur un serveur équipé d’une RTX 3090 (profil High Config). L’orbe se pilote au clavier : F8 pour démarrer ou mettre en veille, F9 pour éteindre ou réveiller.',
+        methodologie: 'Application Python organisée en couches (interfaces, orchestration, outils, modèles, données) reliées par des interfaces abstraites. Le modèle de langage tourne via Ollama, avec des appels d’outils natifs ; le profil est choisi dans la configuration ou détecté d’après la VRAM, la RAM et les cœurs. Sécurité : le contenu des mails, des pages web et des fichiers est traité comme une donnée, jamais comme une consigne, les fichiers sont limités aux dossiers autorisés et toute action qui modifie quelque chose demande une confirmation. Stockage SQLite avec recherche plein texte. Qualité : tests pytest (dont un test d’injection de prompt), typage mypy, lint ruff et intégration continue GitHub Actions.',
+        resultats: 'Version actuelle : agent à outils (mails en lecture seule, brouillons, actualité via Google Actualités, météo Open-Meteo, fichiers, notes, rappels, mémoire, état du PC, applications), briefing du jour, orbe animé avec F8 / F9 et commande de diagnostic.\n\nProchaines étapes : voix locale (faster-whisper, Piper), puis le profil High Config en client / serveur, avec recherche dans les documents (RAG) et vision.',
+      },
+      en: {
+        contexte: 'Personal project: a local-first AI assistant whose reasoning and memory stay on my own machine. The internet is only used for chosen sources (news, weather, email). The same code must run on a modest PC (Low Config profile) and on a server with an RTX 3090 (High Config profile). The orb is keyboard-controlled: F8 to start or pause, F9 to shut down or wake up.',
+        methodologie: 'A layered Python application (interfaces, orchestration, tools, models, data) connected through abstract interfaces. The language model runs on Ollama with native tool calling; the profile is set in the configuration or detected from VRAM, RAM and CPU cores. Security: content from emails, web pages and files is treated as data, never as instructions, file access is limited to allowed folders and any action that changes something requires confirmation. SQLite storage with full-text search. Quality: pytest tests (including a prompt-injection test), mypy typing, ruff linting and GitHub Actions CI.',
+        resultats: 'Current version: a tool-using agent (read-only email, drafts, news from Google News, Open-Meteo weather, files, notes, reminders, memory, PC status, apps), a daily briefing, an animated orb with F8 / F9 and a diagnostic command.\n\nNext steps: local voice (faster-whisper, Piper), then the High Config client / server profile with document search (RAG) and vision.',
+      },
+      es: {
+        contexte: 'Proyecto personal: un asistente de IA «local-first», cuyo razonamiento y memoria se quedan en mi propio equipo. Internet solo se usa para las fuentes elegidas (actualidad, tiempo, correo). El mismo código debe funcionar en un PC modesto (perfil Low Config) y en un servidor con una RTX 3090 (perfil High Config). El orbe se controla con el teclado: F8 para iniciar o pausar, F9 para apagar o despertar.',
+        methodologie: 'Aplicación en Python organizada en capas (interfaces, orquestación, herramientas, modelos, datos) conectadas mediante interfaces abstractas. El modelo de lenguaje funciona con Ollama y llamadas a herramientas nativas; el perfil se elige en la configuración o se detecta según la VRAM, la RAM y los núcleos. Seguridad: el contenido de correos, páginas web y archivos se trata como dato, nunca como instrucción, los archivos se limitan a carpetas autorizadas y toda acción que modifique algo requiere confirmación. Almacenamiento SQLite con búsqueda de texto completo. Calidad: pruebas con pytest (incluida una prueba de inyección de prompt), tipado mypy, lint ruff e integración continua con GitHub Actions.',
+        resultats: 'Versión actual: agente con herramientas (correo en solo lectura, borradores, actualidad vía Google Noticias, tiempo con Open-Meteo, archivos, notas, recordatorios, memoria, estado del PC, aplicaciones), resumen del día, orbe animado con F8 / F9 y comando de diagnóstico.\n\nPróximos pasos: voz local (faster-whisper, Piper) y después el perfil High Config cliente / servidor, con búsqueda en documentos (RAG) y visión.',
+      },
+      de: {
+        contexte: 'Persönliches Projekt: ein „local-first“-KI-Assistent, dessen Denken und Gedächtnis auf meinem eigenen Rechner bleiben. Das Internet wird nur für ausgewählte Quellen genutzt (Nachrichten, Wetter, E-Mail). Derselbe Code soll auf einem einfachen PC (Profil Low Config) wie auf einem Server mit RTX 3090 (Profil High Config) laufen. Die Kugel wird per Tastatur gesteuert: F8 zum Starten oder Pausieren, F9 zum Ausschalten oder Aufwecken.',
+        methodologie: 'Eine in Schichten aufgebaute Python-Anwendung (Oberflächen, Orchestrierung, Werkzeuge, Modelle, Daten), verbunden über abstrakte Schnittstellen. Das Sprachmodell läuft über Ollama mit nativen Tool-Aufrufen; das Profil wird in der Konfiguration gewählt oder anhand von VRAM, RAM und Kernen erkannt. Sicherheit: Inhalte aus E-Mails, Webseiten und Dateien gelten als Daten, nie als Anweisungen, Dateizugriffe sind auf erlaubte Ordner beschränkt und jede verändernde Aktion erfordert eine Bestätigung. SQLite-Speicher mit Volltextsuche. Qualität: pytest-Tests (einschließlich eines Prompt-Injection-Tests), mypy-Typisierung, ruff-Linting und Continuous Integration mit GitHub Actions.',
+        resultats: 'Aktuelle Version: ein Agent mit Werkzeugen (E-Mail nur lesend, Entwürfe, Nachrichten über Google News, Wetter über Open-Meteo, Dateien, Notizen, Erinnerungen, Gedächtnis, PC-Status, Anwendungen), ein Tagesbriefing, eine animierte Kugel mit F8 / F9 und ein Diagnosebefehl.\n\nNächste Schritte: lokale Sprachsteuerung (faster-whisper, Piper), danach das High-Config-Profil als Client / Server mit Dokumentensuche (RAG) und Bilderkennung.',
+      },
+    },
+    tags: ['Python', 'Ollama', 'SQLite', 'pywebview', 'pytest'],
+    cover: 'images/jarvis/orbe.jpg',
+    coverStyle: 'frame',
+    images: ['images/jarvis/orbe.jpg', 'images/jarvis/architecture.jpg'],
+    link: 'https://github.com/Mat-Est/Jarvis',
+    linkType: 'code',
+  },
+  {
     slug: 'criminalite-etats-unis',
     tone: 'rouge',
     cat: { fr: 'Analyse statistique', en: 'Statistical analysis', es: 'Análisis estadístico', de: 'Statistische Analyse' },
