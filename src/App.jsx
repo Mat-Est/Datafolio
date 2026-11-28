@@ -556,16 +556,90 @@ function ProjectCard({ project, t, lang }) {
   );
 }
 
+// Projet mis en avant : grande carte horizontale, avec sa pastille.
+function FeaturedProject({ project, t, lang }) {
+  const c = TONES[project.tone];
+  return (
+    <article className="card group mb-8 grid overflow-hidden lg:grid-cols-[1.25fr_1fr]">
+      <a href={projectHref(project)} aria-hidden="true" tabIndex={-1} className="block">
+        <ProjectCover project={project} className="aspect-[16/10] h-full border-b border-line lg:aspect-auto lg:min-h-[360px] lg:border-b-0 lg:border-r" />
+      </a>
+      <div className="flex flex-col p-6 sm:p-8">
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="inline-flex items-center gap-2 rounded-full bg-violet px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">
+            <span aria-hidden="true" className="relative grid h-1.5 w-1.5 place-items-center">
+              <span className="absolute h-1.5 w-1.5 rounded-full bg-white motion-safe:animate-bubble" />
+              <span className="relative h-1.5 w-1.5 rounded-full bg-white" />
+            </span>
+            {t.projects.featured}
+          </span>
+          <span className={`text-sm font-semibold ${c.ink}`}>{tr(project.cat, lang)}</span>
+        </div>
+        <h3 className="mt-4 font-display text-3xl font-bold tracking-tight md:text-4xl">
+          <a href={projectHref(project)} className="decoration-2 underline-offset-4 hover:underline">{tr(project.title, lang)}</a>
+        </h3>
+        <p className="mt-3 text-[16px] leading-relaxed text-muted">{tr(project.desc, lang)}</p>
+        <ul className="mt-5 flex flex-wrap gap-1.5">
+          {project.tags.map((tag) => <li key={tr(tag, 'fr')} className="chip">{tr(tag, lang)}</li>)}
+        </ul>
+        <div className="mt-auto flex flex-wrap items-center gap-3 pt-7">
+          <a href={projectHref(project)} className="btn btn-primary">
+            {t.projects.cta} <ArrowRight size={17} aria-hidden="true" />
+          </a>
+          {project.link && (
+            <a href={project.link} target="_blank" rel="noreferrer" className="btn btn-secondary">
+              <Github size={17} aria-hidden="true" /> GitHub
+            </a>
+          )}
+        </div>
+      </div>
+    </article>
+  );
+}
+
 function Projects({ t, lang }) {
+  const [showAll, setShowAll] = useState(false);
+  const featured = projects.find((p) => p.featured);
+  const others = projects.filter((p) => !p.featured);
+  const visible = others.filter((p) => showAll || !p.hidden);
+  const hiddenCount = others.filter((p) => p.hidden).length;
   return (
     <Section id="projects" title={t.projects.title} intro={t.projects.intro} soft>
+      {featured && (
+        <div className="reveal">
+          <FeaturedProject project={featured} t={t} lang={lang} />
+        </div>
+      )}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {projects.map((p, i) => (
-          <div key={p.slug} className="reveal" style={{ transitionDelay: `${(i % 3) * 90}ms` }}>
-            <ProjectCard project={p} t={t} lang={lang} index={i} />
+        {visible.map((p, i) => (
+          <div key={p.slug} className={`reveal ${p.hidden ? 'is-visible' : ''}`} style={{ transitionDelay: `${(i % 3) * 90}ms` }}>
+            <ProjectCard project={p} t={t} lang={lang} />
           </div>
         ))}
+        {hiddenCount > 0 && !showAll && (
+          <button
+            type="button"
+            onClick={() => setShowAll(true)}
+            aria-expanded="false"
+            className="group grid min-h-[220px] place-items-center rounded-2xl border-2 border-dashed border-line p-6 text-center text-muted transition-colors hover:border-bleu/50 hover:text-ink"
+          >
+            <span>
+              <span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-surface text-bleu-ink shadow-sm transition-transform group-hover:scale-110">
+                <ChevronDown size={22} aria-hidden="true" />
+              </span>
+              <span className="mt-3 block font-display text-lg font-semibold">{t.projects.showMore}</span>
+              <span className="mt-0.5 block text-sm">+{hiddenCount}</span>
+            </span>
+          </button>
+        )}
       </div>
+      {hiddenCount > 0 && showAll && (
+        <div className="mt-8 text-center">
+          <button type="button" onClick={() => setShowAll(false)} aria-expanded="true" className="btn btn-secondary">
+            {t.projects.showLess} <ChevronDown size={16} aria-hidden="true" className="rotate-180" />
+          </button>
+        </div>
+      )}
     </Section>
   );
 }
@@ -870,7 +944,8 @@ function ProjectDetail({ project, t, lang }) {
         </div>
         {project.link && (
           <a href={project.link} target="_blank" rel="noreferrer" className="btn btn-primary justify-self-start">
-            {t.detail.openApp} <ArrowUpRight size={17} aria-hidden="true" />
+            {project.linkType === 'code' && <Github size={17} aria-hidden="true" />}
+            {project.linkType === 'code' ? t.detail.openCode : t.detail.openApp} <ArrowUpRight size={17} aria-hidden="true" />
           </a>
         )}
       </header>
