@@ -488,50 +488,6 @@ export const projects = [
     link: null,
   },
   {
-    slug: 'reporting-budgetaire',
-    tone: 'jaune',
-    cat: { fr: 'BI & finance', en: 'BI & finance', es: 'BI y finanzas', de: 'BI & Finanzen' },
-    title: {
-      fr: 'Reporting budgétaire mensuel',
-      en: 'Monthly Budget Reporting',
-      es: 'Informe presupuestario mensual',
-      de: 'Monatliches Budget-Reporting',
-    },
-    desc: {
-      fr: 'Suivi budgétaire automatisé : saisie sous Excel, macro VBA et tableau de bord Power BI.',
-      en: 'Automated budget tracking: Excel data entry, a VBA macro and a Power BI dashboard.',
-      es: 'Seguimiento presupuestario automatizado: registro en Excel, macro VBA y panel de Power BI.',
-      de: 'Automatisierte Budgetüberwachung: Erfassung in Excel, VBA-Makro und Power-BI-Dashboard.',
-    },
-    details: {
-      fr: {
-        contexte: 'Projet personnel : un outil de reporting budgétaire mensuel qui alimente automatiquement un rapport Power BI à partir d’Excel et de macros VBA. Le besoin : disposer de visualisations plus claires et plus détaillées de ma situation financière que celles des applications bancaires.',
-        methodologie: 'Les dépenses sont saisies dans un fichier Excel protégé par des contrôles d’intégrité (prévention des valeurs aberrantes). Une macro VBA transfère ensuite les données vers Power BI pour mettre à jour les tableaux de bord.',
-        resultats: 'Le rapport Power BI comporte quatre onglets : dépenses détaillées, revenus, vue d’ensemble (revenus et dépenses mis en regard) et prévisions pour anticiper les flux à venir. L’outil permet un suivi précis et des décisions mieux informées.',
-      },
-      en: {
-        contexte: 'Personal project: a monthly budget reporting tool that automatically feeds a Power BI report from Excel and VBA macros. The need: clearer, more detailed views of my finances than banking apps provide.',
-        methodologie: 'Expenses are entered in an Excel file protected by integrity checks (preventing outliers). A VBA macro then transfers the data to Power BI to refresh the dashboards.',
-        resultats: 'The Power BI report has four tabs: detailed expenses, income, overview (income versus expenses) and forecasts to anticipate future cash flows. The tool gives a precise view of my finances and supports better-informed decisions.',
-      },
-      es: {
-        contexte: 'Proyecto personal: una herramienta de informes presupuestarios mensuales que alimenta automáticamente un informe de Power BI a partir de Excel y macros VBA. La necesidad: visualizaciones más claras y detalladas de mi situación financiera que las de las aplicaciones bancarias.',
-        methodologie: 'Los gastos se registran en un archivo Excel protegido por controles de integridad (prevención de valores atípicos). Una macro VBA transfiere después los datos a Power BI para actualizar los paneles.',
-        resultats: 'El informe de Power BI tiene cuatro pestañas: gastos detallados, ingresos, visión general (ingresos frente a gastos) y previsiones para anticipar los flujos futuros. La herramienta ofrece un seguimiento preciso y decisiones mejor informadas.',
-      },
-      de: {
-        contexte: 'Persönliches Projekt: ein monatliches Budget-Reporting, das aus Excel und VBA-Makros automatisch einen Power-BI-Bericht speist. Der Anlass: klarere und detailliertere Auswertungen meiner Finanzen, als Banking-Apps sie bieten.',
-        methodologie: 'Die Ausgaben werden in einer Excel-Datei mit Integritätsprüfungen erfasst (Vermeidung von Ausreißern). Ein VBA-Makro überträgt die Daten anschließend an Power BI und aktualisiert die Dashboards.',
-        resultats: 'Der Power-BI-Bericht umfasst vier Registerkarten: detaillierte Ausgaben, Einnahmen, Gesamtübersicht (Einnahmen und Ausgaben im Vergleich) und Prognosen zu künftigen Zahlungsströmen. Das Tool ermöglicht eine genaue Verfolgung der Finanzen und fundiertere Entscheidungen.',
-      },
-    },
-    tags: ['Excel', 'VBA', 'Power BI'],
-    cover: 'images/budget/image.jpg',
-    fit: 'cover',
-    images: ['images/budget/image.jpg'],
-    link: null,
-  },
-  {
     slug: 'web-scraping-etl',
     tone: 'violet',
     cat: { fr: 'Collecte de données', en: 'Data collection', es: 'Recolección de datos', de: 'Datenerfassung' },
@@ -620,6 +576,51 @@ export const projects = [
     cover: 'images/stage/image.jpg',
     coverStyle: 'logo',
     images: ['images/stage/image.jpg'],
+    link: null,
+  },
+  {
+    slug: 'reporting-budgetaire',
+    tone: 'jaune',
+    cat: { fr: 'BI & finance', en: 'BI & finance', es: 'BI y finanzas', de: 'BI & Finanzen' },
+    title: {
+      fr: 'Reporting budgétaire mensuel',
+      en: 'Monthly Budget Reporting',
+      es: 'Informe presupuestario mensual',
+      de: 'Monatliches Budget-Reporting',
+    },
+    desc: {
+      fr: 'Suivi budgétaire automatisé : saisie sous Excel, macro VBA et tableau de bord Power BI.',
+      en: 'Automated budget tracking: Excel data entry, a VBA macro and a Power BI dashboard.',
+      es: 'Seguimiento presupuestario automatizado: registro en Excel, macro VBA y panel de Power BI.',
+      de: 'Automatisierte Budgetüberwachung: Erfassung in Excel, VBA-Makro und Power-BI-Dashboard.',
+    },
+    details: {
+      fr: {
+        contexte: 'Projet personnel : un outil de reporting budgétaire mensuel qui alimente automatiquement un rapport Power BI à partir d’Excel et de macros VBA. Le besoin : disposer de visualisations plus claires et plus détaillées de ma situation financière que celles des applications bancaires.',
+        methodologie: 'Les dépenses sont saisies dans un fichier Excel protégé par des contrôles d’intégrité (prévention des valeurs aberrantes). Une macro VBA transfère ensuite les données vers Power BI pour mettre à jour les tableaux de bord.',
+        resultats: 'Le rapport Power BI comporte quatre onglets : dépenses détaillées, revenus, vue d’ensemble (revenus et dépenses mis en regard) et prévisions pour anticiper les flux à venir. L’outil permet un suivi précis et des décisions mieux informées.',
+      },
+      en: {
+        contexte: 'Personal project: a monthly budget reporting tool that automatically feeds a Power BI report from Excel and VBA macros. The need: clearer, more detailed views of my finances than banking apps provide.',
+        methodologie: 'Expenses are entered in an Excel file protected by integrity checks (preventing outliers). A VBA macro then transfers the data to Power BI to refresh the dashboards.',
+        resultats: 'The Power BI report has four tabs: detailed expenses, income, overview (income versus expenses) and forecasts to anticipate future cash flows. The tool gives a precise view of my finances and supports better-informed decisions.',
+      },
+      es: {
+        contexte: 'Proyecto personal: una herramienta de informes presupuestarios mensuales que alimenta automáticamente un informe de Power BI a partir de Excel y macros VBA. La necesidad: visualizaciones más claras y detalladas de mi situación financiera que las de las aplicaciones bancarias.',
+        methodologie: 'Los gastos se registran en un archivo Excel protegido por controles de integridad (prevención de valores atípicos). Una macro VBA transfiere después los datos a Power BI para actualizar los paneles.',
+        resultats: 'El informe de Power BI tiene cuatro pestañas: gastos detallados, ingresos, visión general (ingresos frente a gastos) y previsiones para anticipar los flujos futuros. La herramienta ofrece un seguimiento preciso y decisiones mejor informadas.',
+      },
+      de: {
+        contexte: 'Persönliches Projekt: ein monatliches Budget-Reporting, das aus Excel und VBA-Makros automatisch einen Power-BI-Bericht speist. Der Anlass: klarere und detailliertere Auswertungen meiner Finanzen, als Banking-Apps sie bieten.',
+        methodologie: 'Die Ausgaben werden in einer Excel-Datei mit Integritätsprüfungen erfasst (Vermeidung von Ausreißern). Ein VBA-Makro überträgt die Daten anschließend an Power BI und aktualisiert die Dashboards.',
+        resultats: 'Der Power-BI-Bericht umfasst vier Registerkarten: detaillierte Ausgaben, Einnahmen, Gesamtübersicht (Einnahmen und Ausgaben im Vergleich) und Prognosen zu künftigen Zahlungsströmen. Das Tool ermöglicht eine genaue Verfolgung der Finanzen und fundiertere Entscheidungen.',
+      },
+    },
+    tags: ['Excel', 'VBA', 'Power BI'],
+    cover: 'images/budget/image.jpg',
+    coverStyle: 'window',
+    hidden: true,
+    images: ['images/budget/image.jpg'],
     link: null,
   },
 ];
